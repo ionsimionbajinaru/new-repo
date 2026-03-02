@@ -1,5 +1,8 @@
 (() => {
   const applyButton = document.getElementById("apply-btn");
+  const modal = document.getElementById("apply-modal");
+  const closeButton = document.getElementById("close-modal");
+  const leadForm = document.getElementById("lead-form");
   const hasDataLayer = Array.isArray(window.dataLayer);
   const sessionStartedAt = Date.now();
 
@@ -15,28 +18,39 @@
     console.debug("tracking", name, payload);
   };
 
-  if (applyButton) {
-    applyButton.addEventListener("click", () => {
-      trackEvent("apply_click", { cta: "hero_primary" });
-    });
-  }
-
-  let scrollTracked = false;
-  const onScroll = () => {
-    if (scrollTracked) return;
-
-    const scrollArea = document.documentElement.scrollHeight - window.innerHeight;
-    if (scrollArea <= 0) return;
-
-    const progress = window.scrollY / scrollArea;
-    if (progress >= 0.5) {
-      trackEvent("scroll_50", { progress: 0.5 });
-      scrollTracked = true;
-      window.removeEventListener("scroll", onScroll);
-    }
+  const toggleModal = (open) => {
+    if (!modal || !applyButton) return;
+    modal.classList.toggle("is-open", open);
+    modal.setAttribute("aria-hidden", String(!open));
+    applyButton.setAttribute("aria-expanded", String(open));
   };
 
-  window.addEventListener("scroll", onScroll, { passive: true });
+  applyButton?.addEventListener("click", () => {
+    trackEvent("apply_click", { cta: "hero_primary" });
+    toggleModal(true);
+  });
+
+  closeButton?.addEventListener("click", () => {
+    toggleModal(false);
+    applyButton?.focus();
+  });
+
+  modal?.addEventListener("click", (event) => {
+    if (event.target === modal) {
+      toggleModal(false);
+      applyButton?.focus();
+    }
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      toggleModal(false);
+    }
+  });
+
+  leadForm?.addEventListener("submit", () => {
+    trackEvent("application_submit", { source: "onsite_form" });
+  });
 
   document.addEventListener("visibilitychange", () => {
     if (document.visibilityState === "hidden") {
@@ -44,19 +58,5 @@
         seconds: Math.round((Date.now() - sessionStartedAt) / 1000),
       });
     }
-  });
-
-  window.addEventListener("load", () => {
-    window.setTimeout(() => {
-      window.$crisp = [];
-      window.CRISP_WEBSITE_ID = "REPLACE_WITH_YOUR_CRISP_WEBSITE_ID";
-
-      const script = document.createElement("script");
-      script.src = "https://client.crisp.chat/l.js";
-      script.async = true;
-      script.defer = true;
-      script.crossOrigin = "anonymous";
-      document.head.appendChild(script);
-    }, 1200);
   });
 })();

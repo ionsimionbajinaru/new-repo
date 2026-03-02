@@ -17,6 +17,8 @@
 </head>
 <body>
   <main class="screen" id="top">
+    <div class="ambient" aria-hidden="true"></div>
+=======
     <div class="ambient"></div>
     <section class="layout" aria-label="MVP positioning and conversion section">
       <p class="eyebrow">Production-Ready MVP Systems</p>
@@ -24,16 +26,9 @@
       <p class="subheadline">Built. Deployed. Scaled.</p>
 
       <div class="actions">
-        <a
-          href="https://forms.gle/replace-with-your-form-id"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="cta-primary"
-          id="apply-btn"
-          aria-label="Apply for MVP Project"
-        >
+        <button class="cta-primary" id="apply-btn" type="button" aria-controls="apply-modal" aria-expanded="false">
           Apply for MVP Project
-        </a>
+        </button>
       </div>
       <p class="micro-proof">Global • Remote • Execution without friction</p>
 
@@ -50,6 +45,45 @@
       </aside>
 
       <p class="fineprint">© Ion Simion Bajinaru. All rights reserved.</p>
+    </section>
+
+    <section class="apply-modal" id="apply-modal" aria-hidden="true">
+      <div class="modal-card">
+        <div class="modal-head">
+          <h2>Apply for MVP Project</h2>
+          <button type="button" class="modal-close" id="close-modal" aria-label="Close form">×</button>
+        </div>
+
+        <form class="lead-form" id="lead-form" action="https://formsubmit.co/ion@ionsimionbajinaru.com" method="POST">
+          <input type="hidden" name="_subject" value="New MVP Project Application" />
+          <input type="hidden" name="_captcha" value="false" />
+          <input type="hidden" name="_template" value="table" />
+
+          <label>
+            Full name
+            <input type="text" name="name" required autocomplete="name" />
+          </label>
+          <label>
+            Email
+            <input type="email" name="email" required autocomplete="email" />
+          </label>
+          <label>
+            Budget range
+            <select name="budget" required>
+              <option value="" selected disabled>Select budget</option>
+              <option value="10k-25k">$10k – $25k</option>
+              <option value="25k-50k">$25k – $50k</option>
+              <option value="50k+">$50k+</option>
+            </select>
+          </label>
+          <label>
+            Project scope
+            <textarea name="scope" rows="3" required placeholder="MVP type, timeline, market"></textarea>
+          </label>
+
+          <button type="submit" class="submit-btn">Send application</button>
+        </form>
+      </div>
     </section>
   </main>
 
