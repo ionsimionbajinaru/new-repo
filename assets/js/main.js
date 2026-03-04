@@ -10,40 +10,82 @@
   const IP_LOOKUP_ENDPOINT = "https://ipapi.co/json/";
   const hasDataLayer = Array.isArray(window.dataLayer);
   const sessionStartedAt = Date.now();
+  const currencyByLocale = {
+    ro: { code: "RON", rate: 4.5 },
+    it: { code: "EUR", rate: 0.92 },
+  };
+
   const budgetOptions = [
     {
-      value: "under-10k",
+      value: "under-10000",
+      usdMin: 0,
+      usdMax: 10000,
       labels: {
         en: "< $10,000",
-        ro: "Sub $10.000",
-        it: "Sotto $10.000",
+        ro: "Sub ~45.000 RON",
+        it: "Sotto ~9.200 EUR",
       },
     },
     {
-      value: "10k-25k",
+      value: "10000",
+      usdMin: 10000,
+      usdMax: 25000,
       labels: {
         en: "$10,000 – $25,000",
-        ro: "~45.000 – 112.500 RON ($10,000 – $25,000)",
-        it: "~9.200 – 23.000 EUR ($10,000 – $25,000)",
       },
     },
     {
-      value: "25k-50k",
+      value: "25000",
+      usdMin: 25000,
+      usdMax: 50000,
       labels: {
         en: "$25,000 – $50,000",
-        ro: "~112.500 – 225.000 RON ($25,000 – $50,000)",
-        it: "~23.000 – 46.000 EUR ($25,000 – $50,000)",
       },
     },
     {
-      value: "50k+",
+      value: "50000",
+      usdMin: 50000,
       labels: {
         en: "$50,000+",
-        ro: "~225.000+ RON ($50,000+)",
-        it: "~46.000+ EUR ($50,000+)",
       },
     },
   ];
+
+  const formatConvertedAmount = (amount, locale) => {
+    const formatter = new Intl.NumberFormat(locale, {
+      maximumFractionDigits: 0,
+    });
+
+    return formatter.format(Math.round(amount));
+  };
+
+  const buildBudgetLabel = (budgetOption, locale) => {
+    if (locale === "en") {
+      return budgetOption.labels.en;
+    }
+
+    const currencyConfig = currencyByLocale[locale];
+    if (!currencyConfig) {
+      return budgetOption.labels.en;
+    }
+
+    const { rate, code } = currencyConfig;
+    const minAmount = formatConvertedAmount(budgetOption.usdMin * rate, locale);
+    const maxAmount = budgetOption.usdMax
+      ? formatConvertedAmount(budgetOption.usdMax * rate, locale)
+      : null;
+
+    if (budgetOption.usdMin === 0 && maxAmount) {
+      const prefix = locale === "ro" ? "Sub" : "Sotto";
+      return `${prefix} ~${maxAmount} ${code}`;
+    }
+
+    if (maxAmount) {
+      return `~${minAmount} – ${maxAmount} ${code}`;
+    }
+
+    return `~${minAmount}+ ${code}`;
+  };
 
   const copy = {
     en: {
@@ -276,7 +318,7 @@
       budgetOptions.forEach((budgetOption) => {
         const option = document.createElement("option");
         option.value = budgetOption.value;
-        option.textContent = budgetOption.labels[locale] || budgetOption.labels.en;
+        option.textContent = buildBudgetLabel(budgetOption, locale);
         budgetSelect.appendChild(option);
       });
 
