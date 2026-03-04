@@ -5,7 +5,9 @@
   const leadForm = document.getElementById("lead-form");
   const langToggle = document.getElementById("lang-toggle");
   const LANGUAGE_KEY = "site-language";
+  const DETECTED_LANGUAGE_KEY = "detected-site-language";
   const SUPPORTED_LANGUAGES = ["en", "ro", "it"];
+  const IP_LOOKUP_ENDPOINT = "https://ipapi.co/json/";
   const hasDataLayer = Array.isArray(window.dataLayer);
   const sessionStartedAt = Date.now();
 
@@ -110,20 +112,64 @@
     return SUPPORTED_LANGUAGES.includes(lang) ? lang : null;
   };
 
-  const getLanguageFromBrowser = () => {
-    const browserLocales = Array.isArray(navigator.languages) && navigator.languages.length
-      ? navigator.languages
-      : [navigator.language];
-
-    const detected = browserLocales
-      .map((locale) => locale?.toLowerCase())
-      .find((locale) => SUPPORTED_LANGUAGES.includes(locale?.slice(0, 2)));
-
-    return detected ? detected.slice(0, 2) : null;
+  const getDetectedLanguageFromStorage = () => {
+    const lang = localStorage.getItem(DETECTED_LANGUAGE_KEY)?.trim().toLowerCase();
+    return SUPPORTED_LANGUAGES.includes(lang) ? lang : null;
   };
 
-  const resolveInitialLanguage = () => {
-    return getLanguageFromParam() || getLanguageFromStorage() || getLanguageFromBrowser() || "en";
+  const mapCountryToLanguage = (countryCode) => {
+    const normalizedCountry = countryCode?.trim().toUpperCase();
+
+    if (normalizedCountry === "RO") {
+      return "ro";
+    }
+
+    if (normalizedCountry === "IT") {
+      return "it";
+    }
+
+    return "en";
+  };
+
+  const detectLanguageFromIP = async () => {
+    const cachedLanguage = getDetectedLanguageFromStorage();
+    if (cachedLanguage) {
+      return cachedLanguage;
+    }
+
+    try {
+      const response = await fetch(IP_LOOKUP_ENDPOINT, {
+        headers: {
+          Accept: "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`IP detection failed with status ${response.status}`);
+      }
+
+      const payload = await response.json();
+      const detectedLanguage = mapCountryToLanguage(payload?.country_code);
+      localStorage.setItem(DETECTED_LANGUAGE_KEY, detectedLanguage);
+      return detectedLanguage;
+    } catch (error) {
+      console.warn("Unable to detect language by IP.", error);
+      return null;
+    }
+  };
+
+  const resolveInitialLanguage = async () => {
+    const languageFromParam = getLanguageFromParam();
+    if (languageFromParam) {
+      return languageFromParam;
+    }
+
+    const languageFromStorage = getLanguageFromStorage();
+    if (languageFromStorage) {
+      return languageFromStorage;
+    }
+
+    return (await detectLanguageFromIP()) || "en";
   };
 
   const trackEvent = (name, payload = {}) => {
@@ -145,7 +191,8 @@
     applyButton.setAttribute("aria-expanded", String(open));
   };
 
-  const setLanguage = (lang) => {
+  const setLanguage = (lang, options = {}) => {
+    const { persistPreference = false } = options;
     const locale = copy[lang] ? lang : "en";
     const dict = copy[locale];
 
@@ -184,12 +231,14 @@
       label.classList.toggle("is-active", label.dataset.lang === locale);
     });
 
-    localStorage.setItem(LANGUAGE_KEY, locale);
+    if (persistPreference) {
+      localStorage.setItem(LANGUAGE_KEY, locale);
+    }
   };
 
-  const initLanguageToggle = () => {
-    const initialLanguage = resolveInitialLanguage();
-    setLanguage(initialLanguage);
+  const initLanguageToggle = async () => {
+    const initialLanguage = await resolveInitialLanguage();
+    setLanguage(initialLanguage, { persistPreference: false });
 
     langToggle?.addEventListener("click", (event) => {
       const target = event.target.closest("[data-lang]");
@@ -199,7 +248,7 @@
         return;
       }
 
-      setLanguage(nextLang);
+      setLanguage(nextLang, { persistPreference: true });
       trackEvent("language_toggle", { lang: nextLang });
     });
   };
