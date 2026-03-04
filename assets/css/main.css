@@ -335,6 +335,7 @@ h1 {
   .glass-card { padding: 9px 11px; }
   .filters { gap: 3px; }
   .cta-primary { padding: 10px 21px; }
+  .tech-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 }
 
 @media (max-width: 760px) {
@@ -342,6 +343,7 @@ h1 {
 .layout { gap: 4px; }
   .filters { font-size: clamp(0.86rem, 3.7vw, 1rem); }
   .glass-card { font-size: calc(0.8rem + 2px); }
+  .tech-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 
 .lead-form select {
@@ -371,6 +373,11 @@ h1 {
   max-height: min(66dvh, 510px);
   overflow-y: auto;
   overflow-x: hidden;
+=======
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 9px;
+  overflow-y: auto;
+  max-height: min(66dvh, 510px);
   padding-right: 2px;
 }
 
@@ -380,6 +387,7 @@ h1 {
   background: rgba(255, 255, 255, 0.04);
   min-height: 84px;
   min-width: 0;
+=======
   padding: 9px 7px;
   display: grid;
   justify-items: center;
