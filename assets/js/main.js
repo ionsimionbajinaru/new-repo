@@ -60,3 +60,11 @@
     }
   });
 })();
+
+
+// ENGAGED 45s
+setTimeout(function () {
+  if (typeof gtag === "function") {
+    gtag('event', 'engaged_30s');
+  }
+}, 30000);
