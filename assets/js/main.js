@@ -14,8 +14,10 @@
   const DETECTED_LANGUAGE_KEY = "detected-site-language";
   const SUPPORTED_LANGUAGES = ["en", "ro", "it"];
   const IP_LOOKUP_ENDPOINT = "https://ipapi.co/json/";
-  const hasDataLayer = Array.isArray(window.dataLayer);
   const sessionStartedAt = Date.now();
+  const COOKIE_CONSENT_KEY = "cookie-consent";
+  const GTM_CONTAINER_ID = "GTM-WWH778WP";
+  let analyticsLoaded = false;
 
   // Config pentru conversia bugetelor din USD în monede locale.
   const currencyByLocale = {
@@ -281,9 +283,78 @@
     return (await detectLanguageFromIP()) || "en";
   };
 
+
+  // Încarcă Google Tag Manager doar după consimțământ explicit (accept).
+  const loadAnalytics = () => {
+    if (analyticsLoaded || !GTM_CONTAINER_ID) {
+      return;
+    }
+
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      "gtm.start": Date.now(),
+      event: "gtm.js",
+    });
+
+    const script = document.createElement("script");
+    script.async = true;
+    script.src = `https://www.googletagmanager.com/gtm.js?id=${encodeURIComponent(GTM_CONTAINER_ID)}`;
+    document.head.appendChild(script);
+
+    analyticsLoaded = true;
+
+    setTimeout(() => {
+      if (typeof window.gtag === "function") {
+        window.gtag("event", "engaged_30s");
+      }
+    }, 30000);
+  };
+
+  // Controlează bannerul GDPR și persistă preferința în localStorage.
+  const initCookieConsent = () => {
+    const banner = document.getElementById("cookie-banner");
+    const acceptButton = document.getElementById("cookie-accept");
+    const rejectButton = document.getElementById("cookie-reject");
+    const savedConsent = localStorage.getItem(COOKIE_CONSENT_KEY);
+
+    if (!banner || !acceptButton || !rejectButton) {
+      return;
+    }
+
+    const hideBanner = () => {
+      banner.hidden = true;
+    };
+
+    if (savedConsent === "accepted") {
+      hideBanner();
+      loadAnalytics();
+      return;
+    }
+
+    if (savedConsent === "rejected") {
+      hideBanner();
+      return;
+    }
+
+    banner.hidden = false;
+
+    acceptButton.addEventListener("click", () => {
+      localStorage.setItem(COOKIE_CONSENT_KEY, "accepted");
+      hideBanner();
+      loadAnalytics();
+      trackEvent("cookie_consent", { consent: "accepted" });
+    });
+
+    rejectButton.addEventListener("click", () => {
+      localStorage.setItem(COOKIE_CONSENT_KEY, "rejected");
+      hideBanner();
+      console.info("Cookie consent rejected: analytics remains blocked.");
+    });
+  };
+
   // Trimite evenimente către instrumentele de analytics disponibile.
   const trackEvent = (name, payload = {}) => {
-    if (hasDataLayer) {
+    if (Array.isArray(window.dataLayer)) {
       window.dataLayer.push({ event: name, ...payload });
     }
 
@@ -421,7 +492,8 @@
     });
   };
 
-  // Pornire inițială pentru modulul de localizare.
+  // Pornire inițială pentru modulele de consimțământ și localizare.
+  initCookieConsent();
   initLanguageToggle();
 
   // Deschide modalul de aplicare și trimite eveniment de click pe CTA.
@@ -493,10 +565,3 @@
     }
   });
 })();
-
-// Marchează sesiunea ca engaged după 30s dacă gtag este disponibil.
-setTimeout(() => {
-  if (typeof gtag === "function") {
-    gtag("event", "engaged_30s");
-  }
-}, 30000);
