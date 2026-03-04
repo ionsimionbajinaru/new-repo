@@ -10,6 +10,40 @@
   const IP_LOOKUP_ENDPOINT = "https://ipapi.co/json/";
   const hasDataLayer = Array.isArray(window.dataLayer);
   const sessionStartedAt = Date.now();
+  const budgetOptions = [
+    {
+      value: "under-10k",
+      labels: {
+        en: "< $10,000",
+        ro: "Sub $10.000",
+        it: "Sotto $10.000",
+      },
+    },
+    {
+      value: "10k-25k",
+      labels: {
+        en: "$10,000 – $25,000",
+        ro: "~45.000 – 112.500 RON ($10,000 – $25,000)",
+        it: "~9.200 – 23.000 EUR ($10,000 – $25,000)",
+      },
+    },
+    {
+      value: "25k-50k",
+      labels: {
+        en: "$25,000 – $50,000",
+        ro: "~112.500 – 225.000 RON ($25,000 – $50,000)",
+        it: "~23.000 – 46.000 EUR ($25,000 – $50,000)",
+      },
+    },
+    {
+      value: "50k+",
+      labels: {
+        en: "$50,000+",
+        ro: "~225.000+ RON ($50,000+)",
+        it: "~46.000+ EUR ($50,000+)",
+      },
+    },
+  ];
 
   const copy = {
     en: {
@@ -195,6 +229,7 @@
     const { persistPreference = false } = options;
     const locale = copy[lang] ? lang : "en";
     const dict = copy[locale];
+    const budgetSelect = leadForm?.querySelector('select[name="budget"]');
 
     document.documentElement.setAttribute("lang", dict.htmlLang);
 
@@ -225,6 +260,30 @@
         el.value = dict[key];
       }
     });
+
+    if (budgetSelect) {
+      const selectedValue = budgetSelect.value;
+      const placeholder = budgetSelect.querySelector("option[value='']");
+
+      if (placeholder) {
+        placeholder.textContent = dict.budgetSelect;
+      }
+
+      budgetSelect
+        .querySelectorAll("option[value]:not([value=''])")
+        .forEach((option) => option.remove());
+
+      budgetOptions.forEach((budgetOption) => {
+        const option = document.createElement("option");
+        option.value = budgetOption.value;
+        option.textContent = budgetOption.labels[locale] || budgetOption.labels.en;
+        budgetSelect.appendChild(option);
+      });
+
+      if (selectedValue) {
+        budgetSelect.value = selectedValue;
+      }
+    }
 
     langToggle?.setAttribute("aria-label", dict.toggleAria);
     langToggle?.querySelectorAll(".lang-label").forEach((label) => {
