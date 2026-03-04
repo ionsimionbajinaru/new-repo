@@ -124,9 +124,13 @@ h1 {
 .actions {
   margin-top: 4px;
   margin-bottom: clamp(8px, 1.2vh, 14px);
+  display: grid;
+  justify-items: center;
+  gap: 8px;
 }
 
 .cta-primary,
+.cta-secondary,
 .submit-btn {
   display: inline-flex;
   align-items: center;
@@ -147,7 +151,16 @@ h1 {
   cursor: pointer;
 }
 
+.cta-secondary {
+  background: rgba(255, 255, 255, 0.06);
+  color: #dce8ff;
+  padding: 8px 16px;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
 .cta-primary:hover,
+.cta-secondary:hover,
 .submit-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 24px 56px rgba(74, 245, 213, 0.34), 0 0 24px rgba(121, 255, 231, 0.32);
@@ -155,6 +168,7 @@ h1 {
 }
 
 .cta-primary:focus-visible,
+.cta-secondary:focus-visible,
 .modal-close:focus-visible,
 .submit-btn:focus-visible,
 .lead-form input:focus-visible,
@@ -341,4 +355,60 @@ h1 {
 .lead-form select option {
   background-color: #0e1624;   /* fundal închis */
   color: #ffffff;              /* text alb */
+}
+
+
+.tech-modal .modal-card {
+  width: min(740px, 100%);
+  max-height: calc(100dvh - 24px);
+}
+
+.tech-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: 10px;
+  width: 100%;
+  max-height: min(66dvh, 510px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 2px;
+}
+
+.tech-item {
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.04);
+  min-height: 84px;
+  min-width: 0;
+  padding: 9px 7px;
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: 7px;
+  text-align: center;
+  color: #eaf1ff;
+  text-decoration: none;
+}
+
+.tech-item img,
+.tech-item svg {
+  width: 22px;
+  height: 22px;
+  flex: 0 0 auto;
+}
+
+.tech-item span {
+  font-size: 0.7rem;
+  line-height: 1.2;
+}
+
+.tech-item small {
+  font-size: 0.62rem;
+  letter-spacing: 0.02em;
+  color: var(--accent);
+}
+
+.tech-item-link:hover {
+  border-color: rgba(93, 240, 209, 0.5);
+  box-shadow: 0 8px 22px rgba(93, 240, 209, 0.16);
 }
