@@ -4,13 +4,15 @@
   const closeButton = document.getElementById("close-modal");
   const leadForm = document.getElementById("lead-form");
   const langToggle = document.getElementById("lang-toggle");
+  const LANGUAGE_KEY = "site-language";
+  const SUPPORTED_LANGUAGES = ["en", "ro", "it"];
   const hasDataLayer = Array.isArray(window.dataLayer);
   const sessionStartedAt = Date.now();
 
   const copy = {
     en: {
       htmlLang: "en",
-      toggleAria: "Switch language to Romanian",
+      toggleAria: "Language selector",
       mainSectionAria: "MVP positioning and conversion section",
       filtersAria: "Authority filters",
       deliveryAria: "Delivery standards",
@@ -39,7 +41,7 @@
     },
     ro: {
       htmlLang: "ro",
-      toggleAria: "Schimbă limba în engleză",
+      toggleAria: "Selector limbă",
       mainSectionAria: "Secțiune de poziționare MVP și conversie",
       filtersAria: "Filtre de autoritate",
       deliveryAria: "Standarde de livrare",
@@ -66,6 +68,62 @@
       submitButton: "Trimite aplicația",
       formSubject: "Aplicație nouă proiect MVP",
     },
+    it: {
+      htmlLang: "it",
+      toggleAria: "Selettore lingua",
+      mainSectionAria: "Sezione di posizionamento MVP e conversione",
+      filtersAria: "Filtri di autorevolezza",
+      deliveryAria: "Standard di consegna",
+      closeModalAria: "Chiudi modulo",
+      eyebrow: "Sistemi MVP pronti per la produzione",
+      headline: "Autorevolezza. Conversione. Scala.",
+      subheadline: "Creato. Distribuito. Scalato.",
+      applyButton: "Candidati per un progetto MVP",
+      microProof: "Globale • Da remoto • Esecuzione senza attriti",
+      filterOne: "Solo founder ad alta intenzione",
+      filterTwo: "Budget e obiettivo chiari",
+      filterThree: "Mentalità di esecuzione rapida",
+      cardOne: "• Pronto per la produzione. Non slide concettuali.",
+      cardTwo: "• Analytics + tracking installati.",
+      cardThree: "• Demo settimanali. Deploy pulito.",
+      fineprint: "© Ion Simion Băjinaru. Tutti i diritti riservati.",
+      modalTitle: "Candidati per un progetto MVP",
+      fullNameLabel: "Nome completo",
+      emailLabel: "Email",
+      budgetLabel: "Fascia di budget",
+      budgetSelect: "Seleziona il budget",
+      projectScopeLabel: "Ambito del progetto",
+      scopePlaceholder: "Tipo di MVP, timeline, mercato",
+      submitButton: "Invia candidatura",
+      formSubject: "Nuova candidatura progetto MVP",
+    },
+  };
+
+  const getLanguageFromParam = () => {
+    const params = new URLSearchParams(window.location.search);
+    const lang = params.get("lang")?.trim().toLowerCase();
+    return SUPPORTED_LANGUAGES.includes(lang) ? lang : null;
+  };
+
+  const getLanguageFromStorage = () => {
+    const lang = localStorage.getItem(LANGUAGE_KEY)?.trim().toLowerCase();
+    return SUPPORTED_LANGUAGES.includes(lang) ? lang : null;
+  };
+
+  const getLanguageFromBrowser = () => {
+    const browserLocales = Array.isArray(navigator.languages) && navigator.languages.length
+      ? navigator.languages
+      : [navigator.language];
+
+    const detected = browserLocales
+      .map((locale) => locale?.toLowerCase())
+      .find((locale) => SUPPORTED_LANGUAGES.includes(locale?.slice(0, 2)));
+
+    return detected ? detected.slice(0, 2) : null;
+  };
+
+  const resolveInitialLanguage = () => {
+    return getLanguageFromParam() || getLanguageFromStorage() || getLanguageFromBrowser() || "en";
   };
 
   const trackEvent = (name, payload = {}) => {
@@ -126,16 +184,21 @@
       label.classList.toggle("is-active", label.dataset.lang === locale);
     });
 
-    localStorage.setItem("site-language", locale);
+    localStorage.setItem(LANGUAGE_KEY, locale);
   };
 
   const initLanguageToggle = () => {
-    const initialLanguage = localStorage.getItem("site-language") || "en";
+    const initialLanguage = resolveInitialLanguage();
     setLanguage(initialLanguage);
 
-    langToggle?.addEventListener("click", () => {
-      const currentLang = localStorage.getItem("site-language") || "en";
-      const nextLang = currentLang === "en" ? "ro" : "en";
+    langToggle?.addEventListener("click", (event) => {
+      const target = event.target.closest("[data-lang]");
+      const nextLang = target?.dataset.lang;
+
+      if (!nextLang || !SUPPORTED_LANGUAGES.includes(nextLang)) {
+        return;
+      }
+
       setLanguage(nextLang);
       trackEvent("language_toggle", { lang: nextLang });
     });
