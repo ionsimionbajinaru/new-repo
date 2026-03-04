@@ -1,20 +1,26 @@
 (() => {
+  // Referințe către elementele principale din interfață.
   const applyButton = document.getElementById("apply-btn");
   const modal = document.getElementById("apply-modal");
   const closeButton = document.getElementById("close-modal");
   const leadForm = document.getElementById("lead-form");
   const langToggle = document.getElementById("lang-toggle");
+
+  // Chei și constante folosite pentru localizare și tracking.
   const LANGUAGE_KEY = "site-language";
   const DETECTED_LANGUAGE_KEY = "detected-site-language";
   const SUPPORTED_LANGUAGES = ["en", "ro", "it"];
   const IP_LOOKUP_ENDPOINT = "https://ipapi.co/json/";
   const hasDataLayer = Array.isArray(window.dataLayer);
   const sessionStartedAt = Date.now();
+
+  // Config pentru conversia bugetelor din USD în monede locale.
   const currencyByLocale = {
     ro: { code: "RON", rate: 4.5 },
     it: { code: "EUR", rate: 0.92 },
   };
 
+  // Variantele standard de buget afișate în formular.
   const budgetOptions = [
     {
       value: "under-10000",
@@ -51,42 +57,7 @@
     },
   ];
 
-  const formatConvertedAmount = (amount, locale) => {
-    const formatter = new Intl.NumberFormat(locale, {
-      maximumFractionDigits: 0,
-    });
-
-    return formatter.format(Math.round(amount));
-  };
-
-  const buildBudgetLabel = (budgetOption, locale) => {
-    if (locale === "en") {
-      return budgetOption.labels.en;
-    }
-
-    const currencyConfig = currencyByLocale[locale];
-    if (!currencyConfig) {
-      return budgetOption.labels.en;
-    }
-
-    const { rate, code } = currencyConfig;
-    const minAmount = formatConvertedAmount(budgetOption.usdMin * rate, locale);
-    const maxAmount = budgetOption.usdMax
-      ? formatConvertedAmount(budgetOption.usdMax * rate, locale)
-      : null;
-
-    if (budgetOption.usdMin === 0 && maxAmount) {
-      const prefix = locale === "ro" ? "Sub" : "Sotto";
-      return `${prefix} ~${maxAmount} ${code}`;
-    }
-
-    if (maxAmount) {
-      return `~${minAmount} – ${maxAmount} ${code}`;
-    }
-
-    return `~${minAmount}+ ${code}`;
-  };
-
+  // Dicționarul de traduceri pentru text și atribute.
   const copy = {
     en: {
       htmlLang: "en",
@@ -177,22 +148,64 @@
     },
   };
 
+  // Formatează valori numerice pentru moneda locală.
+  const formatConvertedAmount = (amount, locale) => {
+    const formatter = new Intl.NumberFormat(locale, {
+      maximumFractionDigits: 0,
+    });
+
+    return formatter.format(Math.round(amount));
+  };
+
+  // Construiește eticheta de buget în funcție de limba activă.
+  const buildBudgetLabel = (budgetOption, locale) => {
+    if (locale === "en") {
+      return budgetOption.labels.en;
+    }
+
+    const currencyConfig = currencyByLocale[locale];
+    if (!currencyConfig) {
+      return budgetOption.labels.en;
+    }
+
+    const { rate, code } = currencyConfig;
+    const minAmount = formatConvertedAmount(budgetOption.usdMin * rate, locale);
+    const maxAmount = budgetOption.usdMax
+      ? formatConvertedAmount(budgetOption.usdMax * rate, locale)
+      : null;
+
+    if (budgetOption.usdMin === 0 && maxAmount) {
+      const prefix = locale === "ro" ? "Sub" : "Sotto";
+      return `${prefix} ~${maxAmount} ${code}`;
+    }
+
+    if (maxAmount) {
+      return `~${minAmount} – ${maxAmount} ${code}`;
+    }
+
+    return `~${minAmount}+ ${code}`;
+  };
+
+  // Citește limba din parametru URL, dacă este validă.
   const getLanguageFromParam = () => {
     const params = new URLSearchParams(window.location.search);
     const lang = params.get("lang")?.trim().toLowerCase();
     return SUPPORTED_LANGUAGES.includes(lang) ? lang : null;
   };
 
+  // Citește limba preferată salvată de utilizator.
   const getLanguageFromStorage = () => {
     const lang = localStorage.getItem(LANGUAGE_KEY)?.trim().toLowerCase();
     return SUPPORTED_LANGUAGES.includes(lang) ? lang : null;
   };
 
+  // Citește limba detectată anterior pe baza IP-ului.
   const getDetectedLanguageFromStorage = () => {
     const lang = localStorage.getItem(DETECTED_LANGUAGE_KEY)?.trim().toLowerCase();
     return SUPPORTED_LANGUAGES.includes(lang) ? lang : null;
   };
 
+  // Mapează țara detectată către limba implicită de afișare.
   const mapCountryToLanguage = (countryCode) => {
     const normalizedCountry = countryCode?.trim().toUpperCase();
 
@@ -207,6 +220,7 @@
     return "en";
   };
 
+  // Detectează limba din IP și memorează rezultatul pentru reutilizare.
   const detectLanguageFromIP = async () => {
     const cachedLanguage = getDetectedLanguageFromStorage();
     if (cachedLanguage) {
@@ -234,6 +248,7 @@
     }
   };
 
+  // Stabilește limba inițială folosind prioritatea: URL -> storage -> IP -> EN.
   const resolveInitialLanguage = async () => {
     const languageFromParam = getLanguageFromParam();
     if (languageFromParam) {
@@ -248,6 +263,7 @@
     return (await detectLanguageFromIP()) || "en";
   };
 
+  // Trimite evenimente către instrumentele de analytics disponibile.
   const trackEvent = (name, payload = {}) => {
     if (hasDataLayer) {
       window.dataLayer.push({ event: name, ...payload });
@@ -260,83 +276,114 @@
     console.debug("tracking", name, payload);
   };
 
+  // Deschide sau închide modalul și sincronizează atributele de accesibilitate.
   const toggleModal = (open) => {
     if (!modal || !applyButton) return;
+
     modal.classList.toggle("is-open", open);
     modal.setAttribute("aria-hidden", String(!open));
     applyButton.setAttribute("aria-expanded", String(open));
   };
 
-  const setLanguage = (lang, options = {}) => {
-    const { persistPreference = false } = options;
-    const locale = copy[lang] ? lang : "en";
-    const dict = copy[locale];
+  // Actualizează textele simple pe baza atributului data-i18n.
+  const updateLocalizedText = (dict) => {
+    document.querySelectorAll("[data-i18n]").forEach((element) => {
+      const key = element.dataset.i18n;
+      if (dict[key]) {
+        element.textContent = dict[key];
+      }
+    });
+  };
+
+  // Actualizează aria-label pe elementele care au cheie i18n dedicată.
+  const updateLocalizedAriaLabels = (dict) => {
+    document.querySelectorAll("[data-i18n-aria-label]").forEach((element) => {
+      const key = element.dataset.i18nAriaLabel;
+      if (dict[key]) {
+        element.setAttribute("aria-label", dict[key]);
+      }
+    });
+  };
+
+  // Actualizează placeholder-ele localizate din formular.
+  const updateLocalizedPlaceholders = (dict) => {
+    document.querySelectorAll("[data-i18n-placeholder]").forEach((element) => {
+      const key = element.dataset.i18nPlaceholder;
+      if (dict[key]) {
+        element.setAttribute("placeholder", dict[key]);
+      }
+    });
+  };
+
+  // Actualizează valorile elementelor care folosesc data-i18n-value.
+  const updateLocalizedValues = (dict) => {
+    document.querySelectorAll("[data-i18n-value]").forEach((element) => {
+      const key = element.dataset.i18nValue;
+      if (dict[key]) {
+        element.value = dict[key];
+      }
+    });
+  };
+
+  // Reface opțiunile de buget în limba curentă, păstrând selecția existentă.
+  const updateBudgetOptions = (dict, locale) => {
     const budgetSelect = leadForm?.querySelector('select[name="budget"]');
-
-    document.documentElement.setAttribute("lang", dict.htmlLang);
-
-    document.querySelectorAll("[data-i18n]").forEach((el) => {
-      const key = el.dataset.i18n;
-      if (dict[key]) {
-        el.textContent = dict[key];
-      }
-    });
-
-    document.querySelectorAll("[data-i18n-aria-label]").forEach((el) => {
-      const key = el.dataset.i18nAriaLabel;
-      if (dict[key]) {
-        el.setAttribute("aria-label", dict[key]);
-      }
-    });
-
-    document.querySelectorAll("[data-i18n-placeholder]").forEach((el) => {
-      const key = el.dataset.i18nPlaceholder;
-      if (dict[key]) {
-        el.setAttribute("placeholder", dict[key]);
-      }
-    });
-
-    document.querySelectorAll("[data-i18n-value]").forEach((el) => {
-      const key = el.dataset.i18nValue;
-      if (dict[key]) {
-        el.value = dict[key];
-      }
-    });
-
-    if (budgetSelect) {
-      const selectedValue = budgetSelect.value;
-      const placeholder = budgetSelect.querySelector("option[value='']");
-
-      if (placeholder) {
-        placeholder.textContent = dict.budgetSelect;
-      }
-
-      budgetSelect
-        .querySelectorAll("option[value]:not([value=''])")
-        .forEach((option) => option.remove());
-
-      budgetOptions.forEach((budgetOption) => {
-        const option = document.createElement("option");
-        option.value = budgetOption.value;
-        option.textContent = buildBudgetLabel(budgetOption, locale);
-        budgetSelect.appendChild(option);
-      });
-
-      if (selectedValue) {
-        budgetSelect.value = selectedValue;
-      }
+    if (!budgetSelect) {
+      return;
     }
 
+    const selectedValue = budgetSelect.value;
+    const placeholder = budgetSelect.querySelector("option[value='']");
+
+    if (placeholder) {
+      placeholder.textContent = dict.budgetSelect;
+    }
+
+    budgetSelect
+      .querySelectorAll("option[value]:not([value=''])")
+      .forEach((option) => option.remove());
+
+    budgetOptions.forEach((budgetOption) => {
+      const option = document.createElement("option");
+      option.value = budgetOption.value;
+      option.textContent = buildBudgetLabel(budgetOption, locale);
+      budgetSelect.appendChild(option);
+    });
+
+    if (selectedValue) {
+      budgetSelect.value = selectedValue;
+    }
+  };
+
+  // Evidențiază limba activă în controlul de schimbare limbă.
+  const updateLanguageToggleState = (dict, locale) => {
     langToggle?.setAttribute("aria-label", dict.toggleAria);
     langToggle?.querySelectorAll(".lang-label").forEach((label) => {
       label.classList.toggle("is-active", label.dataset.lang === locale);
     });
+  };
+
+  // Aplică limba în pagină și, opțional, salvează preferința utilizatorului.
+  const setLanguage = (lang, options = {}) => {
+    const { persistPreference = false } = options;
+    const locale = copy[lang] ? lang : "en";
+    const dict = copy[locale];
+
+    document.documentElement.setAttribute("lang", dict.htmlLang);
+
+    updateLocalizedText(dict);
+    updateLocalizedAriaLabels(dict);
+    updateLocalizedPlaceholders(dict);
+    updateLocalizedValues(dict);
+    updateBudgetOptions(dict, locale);
+    updateLanguageToggleState(dict, locale);
 
     if (persistPreference) {
       localStorage.setItem(LANGUAGE_KEY, locale);
     }
   };
 
+  // Inițializează limba inițială și ascultă interacțiunile de schimbare limbă.
   const initLanguageToggle = async () => {
     const initialLanguage = await resolveInitialLanguage();
     setLanguage(initialLanguage, { persistPreference: false });
@@ -354,18 +401,22 @@
     });
   };
 
+  // Pornire inițială pentru modulul de localizare.
   initLanguageToggle();
 
+  // Deschide modalul de aplicare și trimite eveniment de click pe CTA.
   applyButton?.addEventListener("click", () => {
     trackEvent("apply_click", { cta: "hero_primary" });
     toggleModal(true);
   });
 
+  // Închide modalul din butonul dedicat și readuce focusul pe CTA.
   closeButton?.addEventListener("click", () => {
     toggleModal(false);
     applyButton?.focus();
   });
 
+  // Închide modalul dacă utilizatorul dă click în afara conținutului.
   modal?.addEventListener("click", (event) => {
     if (event.target === modal) {
       toggleModal(false);
@@ -373,16 +424,19 @@
     }
   });
 
+  // Închide modalul la apăsarea tastei Escape.
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") {
       toggleModal(false);
     }
   });
 
+  // Trimite eveniment analytics la trimiterea formularului.
   leadForm?.addEventListener("submit", () => {
     trackEvent("application_submit", { source: "onsite_form" });
   });
 
+  // Măsoară timpul petrecut în pagină când tab-ul devine inactiv.
   document.addEventListener("visibilitychange", () => {
     if (document.visibilityState === "hidden") {
       trackEvent("time_on_page", {
@@ -392,9 +446,8 @@
   });
 })();
 
-
-// ENGAGED 45s
-setTimeout(function () {
+// Marchează sesiunea ca engaged după 30s dacă gtag este disponibil.
+setTimeout(() => {
   if (typeof gtag === "function") {
     gtag("event", "engaged_30s");
   }
