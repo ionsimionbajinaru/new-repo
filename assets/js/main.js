@@ -3,6 +3,9 @@
   const applyButton = document.getElementById("apply-btn");
   const modal = document.getElementById("apply-modal");
   const closeButton = document.getElementById("close-modal");
+  const techStackButton = document.getElementById("tech-stack-btn");
+  const techStackModal = document.getElementById("tech-stack-modal");
+  const closeTechButton = document.getElementById("close-tech-modal");
   const leadForm = document.getElementById("lead-form");
   const langToggle = document.getElementById("lang-toggle");
 
@@ -66,10 +69,13 @@
       filtersAria: "Authority filters",
       deliveryAria: "Delivery standards",
       closeModalAria: "Close form",
+      closeTechModalAria: "Close tech stack",
+      techGridAria: "Technology stack icons",
       eyebrow: "Production-Ready MVP Systems",
       headline: "Authority. Conversion. Scale.",
       subheadline: "Built. Deployed. Scaled.",
       applyButton: "Apply for MVP Project",
+      techStackButton: "Tech Stack",
       microProof: "Global • Remote • Execution without friction",
       filterOne: "High-intent founders only",
       filterTwo: "Clear budget & scope",
@@ -79,6 +85,8 @@
       cardThree: "• Weekly demos. Clean deployment.",
       fineprint: "© Ion Simion Băjinaru. All rights reserved.",
       modalTitle: "Apply for MVP Project",
+      techStackTitle: "Tech Stack",
+      githubPortfolioLink: "View code portfolio →",
       fullNameLabel: "Full name",
       emailLabel: "Email",
       budgetLabel: "Budget range",
@@ -95,10 +103,13 @@
       filtersAria: "Filtre de autoritate",
       deliveryAria: "Standarde de livrare",
       closeModalAria: "Închide formularul",
+      closeTechModalAria: "Închide tehnologiile",
+      techGridAria: "Iconițe stack tehnologic",
       eyebrow: "Sisteme MVP gata de producție",
       headline: "Autoritate. Conversie. Scalare.",
       subheadline: "Construit. Lansat. Scalabil.",
       applyButton: "Aplică pentru proiect MVP",
+      techStackButton: "Tech Stack",
       microProof: "Global • Remote • Execuție fără fricțiune",
       filterOne: "Doar fondatori cu intenție ridicată",
       filterTwo: "Buget și scop clar",
@@ -108,6 +119,8 @@
       cardThree: "• Demo-uri săptămânale. Deploy curat.",
       fineprint: "© Ion Simion Băjinaru. Toate drepturile rezervate.",
       modalTitle: "Aplică pentru proiect MVP",
+      techStackTitle: "Tech Stack",
+      githubPortfolioLink: "Vezi portofoliul de cod →",
       fullNameLabel: "Nume complet",
       emailLabel: "Email",
       budgetLabel: "Interval buget",
@@ -124,10 +137,13 @@
       filtersAria: "Filtri di autorevolezza",
       deliveryAria: "Standard di consegna",
       closeModalAria: "Chiudi modulo",
+      closeTechModalAria: "Chiudi stack tecnologico",
+      techGridAria: "Icone dello stack tecnologico",
       eyebrow: "Sistemi MVP pronti per la produzione",
       headline: "Autorevolezza. Conversione. Scala.",
       subheadline: "Creato. Distribuito. Scalato.",
       applyButton: "Candidati per un progetto MVP",
+      techStackButton: "Tech Stack",
       microProof: "Globale • Da remoto • Esecuzione senza attriti",
       filterOne: "Solo founder ad alta intenzione",
       filterTwo: "Budget e obiettivo chiari",
@@ -137,6 +153,8 @@
       cardThree: "• Demo settimanali. Deploy pulito.",
       fineprint: "© Ion Simion Băjinaru. Tutti i diritti riservati.",
       modalTitle: "Candidati per un progetto MVP",
+      techStackTitle: "Tech Stack",
+      githubPortfolioLink: "Vedi portfolio codice →",
       fullNameLabel: "Nome completo",
       emailLabel: "Email",
       budgetLabel: "Fascia di budget",
@@ -276,13 +294,15 @@
     console.debug("tracking", name, payload);
   };
 
-  // Deschide sau închide modalul și sincronizează atributele de accesibilitate.
-  const toggleModal = (open) => {
-    if (!modal || !applyButton) return;
+  // Deschide sau închide un modal și sincronizează atributele de accesibilitate.
+  const toggleModal = (modalElement, triggerElement, open) => {
+    if (!modalElement || !triggerElement) {
+      return;
+    }
 
-    modal.classList.toggle("is-open", open);
-    modal.setAttribute("aria-hidden", String(!open));
-    applyButton.setAttribute("aria-expanded", String(open));
+    modalElement.classList.toggle("is-open", open);
+    modalElement.setAttribute("aria-hidden", String(!open));
+    triggerElement.setAttribute("aria-expanded", String(open));
   };
 
   // Actualizează textele simple pe baza atributului data-i18n.
@@ -407,27 +427,55 @@
   // Deschide modalul de aplicare și trimite eveniment de click pe CTA.
   applyButton?.addEventListener("click", () => {
     trackEvent("apply_click", { cta: "hero_primary" });
-    toggleModal(true);
+    toggleModal(modal, applyButton, true);
   });
 
-  // Închide modalul din butonul dedicat și readuce focusul pe CTA.
+  techStackButton?.addEventListener("click", () => {
+    trackEvent("tech_stack_open", { source: "hero_secondary" });
+    toggleModal(techStackModal, techStackButton, true);
+  });
+
+  // Închide modalurile din butoanele dedicate și readuce focusul pe trigger.
   closeButton?.addEventListener("click", () => {
-    toggleModal(false);
+    toggleModal(modal, applyButton, false);
     applyButton?.focus();
+  });
+
+  closeTechButton?.addEventListener("click", () => {
+    toggleModal(techStackModal, techStackButton, false);
+    techStackButton?.focus();
   });
 
   // Închide modalul dacă utilizatorul dă click în afara conținutului.
   modal?.addEventListener("click", (event) => {
     if (event.target === modal) {
-      toggleModal(false);
+      toggleModal(modal, applyButton, false);
       applyButton?.focus();
     }
   });
 
-  // Închide modalul la apăsarea tastei Escape.
+  techStackModal?.addEventListener("click", (event) => {
+    if (event.target === techStackModal) {
+      toggleModal(techStackModal, techStackButton, false);
+      techStackButton?.focus();
+    }
+  });
+
+  // Închide modalul activ la apăsarea tastei Escape.
   document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") {
-      toggleModal(false);
+    if (event.key !== "Escape") {
+      return;
+    }
+
+    if (techStackModal?.classList.contains("is-open")) {
+      toggleModal(techStackModal, techStackButton, false);
+      techStackButton?.focus();
+      return;
+    }
+
+    if (modal?.classList.contains("is-open")) {
+      toggleModal(modal, applyButton, false);
+      applyButton?.focus();
     }
   });
 
