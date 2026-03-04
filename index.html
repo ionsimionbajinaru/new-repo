@@ -30,68 +30,75 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <main class="screen" id="top">
     <div class="ambient" aria-hidden="true"></div>
     <div class="ambient"></div>
-    <section class="layout" aria-label="MVP positioning and conversion section">
-      <p class="eyebrow">Production-Ready MVP Systems</p>
-      <h1>Authority. Conversion. Scale.</h1>
-      <p class="subheadline">Built. Deployed. Scaled.</p>
+
+    <button class="lang-toggle" id="lang-toggle" type="button" aria-label="Switch language to Romanian">
+      <span class="lang-label" data-lang="en">EN</span>
+      <span class="lang-divider" aria-hidden="true">|</span>
+      <span class="lang-label" data-lang="ro">RO</span>
+    </button>
+
+    <section class="layout" aria-label="MVP positioning and conversion section" data-i18n-aria-label="mainSectionAria">
+      <p class="eyebrow" data-i18n="eyebrow">Production-Ready MVP Systems</p>
+      <h1 data-i18n="headline">Authority. Conversion. Scale.</h1>
+      <p class="subheadline" data-i18n="subheadline">Built. Deployed. Scaled.</p>
 
       <div class="actions">
-        <button class="cta-primary" id="apply-btn" type="button" aria-controls="apply-modal" aria-expanded="false">
+        <button class="cta-primary" id="apply-btn" type="button" aria-controls="apply-modal" aria-expanded="false" data-i18n="applyButton">
           Apply for MVP Project
         </button>
       </div>
-      <p class="micro-proof">Global • Remote • Execution without friction</p>
+      <p class="micro-proof" data-i18n="microProof">Global • Remote • Execution without friction</p>
 
-      <ul class="filters" aria-label="Authority filters">
-        <li>High-intent founders only</li>
-        <li>Clear budget &amp; scope</li>
-        <li>Fast execution mindset</li>
+      <ul class="filters" aria-label="Authority filters" data-i18n-aria-label="filtersAria">
+        <li data-i18n="filterOne">High-intent founders only</li>
+        <li data-i18n="filterTwo">Clear budget &amp; scope</li>
+        <li data-i18n="filterThree">Fast execution mindset</li>
       </ul>
 
-      <aside class="glass-card" aria-label="Delivery standards">
-        <p>• Production-Ready. Not concept slides.</p>
-        <p>• Analytics + tracking installed.</p>
-        <p>• Weekly demos. Clean deployment.</p>
+      <aside class="glass-card" aria-label="Delivery standards" data-i18n-aria-label="deliveryAria">
+        <p data-i18n="cardOne">• Production-Ready. Not concept slides.</p>
+        <p data-i18n="cardTwo">• Analytics + tracking installed.</p>
+        <p data-i18n="cardThree">• Weekly demos. Clean deployment.</p>
       </aside>
 
-      <p class="fineprint">© Ion Simion Băjinaru. All rights reserved.</p>
+      <p class="fineprint" data-i18n="fineprint">© Ion Simion Băjinaru. All rights reserved.</p>
     </section>
 
     <section class="apply-modal" id="apply-modal" aria-hidden="true">
       <div class="modal-card">
         <div class="modal-head">
-          <h2>Apply for MVP Project</h2>
-          <button type="button" class="modal-close" id="close-modal" aria-label="Close form">×</button>
+          <h2 data-i18n="modalTitle">Apply for MVP Project</h2>
+          <button type="button" class="modal-close" id="close-modal" aria-label="Close form" data-i18n-aria-label="closeModalAria">×</button>
         </div>
 
         <form class="lead-form" id="lead-form" action="https://formsubmit.co/ion@ionsimionbajinaru.com" method="POST">
-          <input type="hidden" name="_subject" value="New MVP Project Application" />
+          <input type="hidden" name="_subject" value="New MVP Project Application" data-i18n-value="formSubject" />
           <input type="hidden" name="_captcha" value="false" />
           <input type="hidden" name="_template" value="table" />
 
           <label>
-            Full name
+            <span data-i18n="fullNameLabel">Full name</span>
             <input type="text" name="name" required autocomplete="name" />
           </label>
           <label>
-            Email
+            <span data-i18n="emailLabel">Email</span>
             <input type="email" name="email" required autocomplete="email" />
           </label>
           <label>
-            Budget range
+            <span data-i18n="budgetLabel">Budget range</span>
             <select name="budget" required>
-              <option value="" selected disabled>Select budget</option>
+              <option value="" selected disabled data-i18n="budgetSelect">Select budget</option>
               <option value="10k-25k">$10k – $25k</option>
               <option value="25k-50k">$25k – $50k</option>
               <option value="50k+">$50k+</option>
             </select>
           </label>
           <label>
-            Project scope
-            <textarea name="scope" rows="3" required placeholder="MVP type, timeline, market"></textarea>
+            <span data-i18n="projectScopeLabel">Project scope</span>
+            <textarea name="scope" rows="3" required placeholder="MVP type, timeline, market" data-i18n-placeholder="scopePlaceholder"></textarea>
           </label>
 
-          <button type="submit" class="submit-btn">Send application</button>
+          <button type="submit" class="submit-btn" data-i18n="submitButton">Send application</button>
         </form>
       </div>
     </section>
