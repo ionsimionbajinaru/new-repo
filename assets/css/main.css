@@ -256,8 +256,8 @@ h1 {
 }
 
 .modal-card {
-  width: min(540px, 100%);
-  max-height: calc(100dvh - 24px);
+  width: min(540px, calc(100vw - 24px));
+  max-height: min(calc(100dvh - 24px), calc(100vh - 24px));
   overflow: hidden;
   border-radius: 16px;
   border: 1px solid var(--border);
@@ -334,7 +334,6 @@ h1 {
   .glass-card { padding: 9px 11px; }
   .filters { gap: 3px; }
   .cta-primary { padding: 10px 21px; }
-  .tech-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 }
 
 @media (max-width: 760px) {
@@ -342,7 +341,6 @@ h1 {
 .layout { gap: 4px; }
   .filters { font-size: clamp(0.86rem, 3.7vw, 1rem); }
   .glass-card { font-size: calc(0.8rem + 2px); }
-  .tech-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 
 .lead-form select {
@@ -360,19 +358,20 @@ h1 {
 
 
 .tech-modal .modal-card {
-  width: min(740px, 100%);
-  max-height: calc(100dvh - 24px);
+  width: min(740px, calc(100vw - 24px));
+  max-height: min(calc(100dvh - 24px), calc(100vh - 24px));
+  grid-template-rows: auto minmax(0, 1fr);
 }
 
 .tech-grid {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 9px;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: clamp(8px, 1.4vw, 12px);
   width: 100%;
-  max-height: min(66dvh, 510px);
+  min-height: 0;
   overflow-y: auto;
   overflow-x: hidden;
-  padding-right: 2px;
+  padding: 2px;
 }
 
 .tech-item {
@@ -381,10 +380,10 @@ h1 {
   background: rgba(255, 255, 255, 0.04);
   min-height: 84px;
   min-width: 0;
+  width: 100%;
   padding: 9px 7px;
   display: grid;
-  justify-items: center;
-  align-content: center;
+  place-items: center;
   gap: 7px;
   text-align: center;
   color: #eaf1ff;
