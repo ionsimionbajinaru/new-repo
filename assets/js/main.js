@@ -8,6 +8,15 @@
   const closeTechButton = document.getElementById("close-tech-modal");
   const leadForm = document.getElementById("lead-form");
   const langToggle = document.getElementById("lang-toggle");
+  const privacyButton = document.getElementById("privacy-btn");
+  const cookiePolicyButton = document.getElementById("cookie-policy-btn");
+  const contactInfoButton = document.getElementById("contact-info-btn");
+  const privacyModal = document.getElementById("privacy-modal");
+  const cookiePolicyModal = document.getElementById("cookie-policy-modal");
+  const contactInfoModal = document.getElementById("contact-info-modal");
+  const closePrivacyButton = document.getElementById("close-privacy-modal");
+  const closeCookiePolicyButton = document.getElementById("close-cookie-policy-modal");
+  const closeContactInfoButton = document.getElementById("close-contact-info-modal");
 
   // Chei și constante folosite pentru localizare și tracking.
   const LANGUAGE_KEY = "site-language";
@@ -376,6 +385,26 @@
     triggerElement.setAttribute("aria-expanded", String(open));
   };
 
+
+  // Leagă deschiderea/închiderea pentru un modal generic cu trigger și buton de close.
+  const bindModal = (openButton, modalElement, closeButtonElement) => {
+    openButton?.addEventListener("click", () => {
+      toggleModal(modalElement, openButton, true);
+    });
+
+    closeButtonElement?.addEventListener("click", () => {
+      toggleModal(modalElement, openButton, false);
+      openButton?.focus();
+    });
+
+    modalElement?.addEventListener("click", (event) => {
+      if (event.target === modalElement) {
+        toggleModal(modalElement, openButton, false);
+        openButton?.focus();
+      }
+    });
+  };
+
   // Actualizează textele simple pe baza atributului data-i18n.
   const updateLocalizedText = (dict) => {
     document.querySelectorAll("[data-i18n]").forEach((element) => {
@@ -507,7 +536,7 @@
     toggleModal(techStackModal, techStackButton, true);
   });
 
-  // Închide modalurile din butoanele dedicate și readuce focusul pe trigger.
+  // Leagă închiderea pentru modalurile existente.
   closeButton?.addEventListener("click", () => {
     toggleModal(modal, applyButton, false);
     applyButton?.focus();
@@ -518,7 +547,6 @@
     techStackButton?.focus();
   });
 
-  // Închide modalul dacă utilizatorul dă click în afara conținutului.
   modal?.addEventListener("click", (event) => {
     if (event.target === modal) {
       toggleModal(modal, applyButton, false);
@@ -532,6 +560,11 @@
       techStackButton?.focus();
     }
   });
+
+  // Activează modalurile legale nou adăugate.
+  bindModal(privacyButton, privacyModal, closePrivacyButton);
+  bindModal(cookiePolicyButton, cookiePolicyModal, closeCookiePolicyButton);
+  bindModal(contactInfoButton, contactInfoModal, closeContactInfoButton);
 
   // Închide modalul activ la apăsarea tastei Escape.
   document.addEventListener("keydown", (event) => {
@@ -548,6 +581,24 @@
     if (modal?.classList.contains("is-open")) {
       toggleModal(modal, applyButton, false);
       applyButton?.focus();
+      return;
+    }
+
+    if (privacyModal?.classList.contains("is-open")) {
+      toggleModal(privacyModal, privacyButton, false);
+      privacyButton?.focus();
+      return;
+    }
+
+    if (cookiePolicyModal?.classList.contains("is-open")) {
+      toggleModal(cookiePolicyModal, cookiePolicyButton, false);
+      cookiePolicyButton?.focus();
+      return;
+    }
+
+    if (contactInfoModal?.classList.contains("is-open")) {
+      toggleModal(contactInfoModal, contactInfoButton, false);
+      contactInfoButton?.focus();
     }
   });
 

@@ -25,14 +25,14 @@ body {
 }
 
 .screen {
-  height: 100dvh;
+  min-height: 100dvh;
+  height: auto;
   width: 100%;
   display: grid;
   place-items: center;
   position: relative;
   padding: clamp(8px, 1.4vh, 14px) clamp(10px, 2vw, 24px);
   isolation: isolate;
-  min-height: 100dvh;
 }
 
 .ambient {
@@ -236,6 +236,32 @@ h1 {
   text-transform: uppercase;
 }
 
+
+.legal-links {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: clamp(0.6rem, 0.92vw, 0.72rem);
+  color: rgba(206, 216, 233, 0.84);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.legal-link {
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  cursor: pointer;
+}
+
+.legal-link:hover,
+.legal-link:focus-visible {
+  color: #eff4ff;
+}
+
 .apply-modal {
   position: absolute;
   inset: 0;
@@ -341,6 +367,8 @@ h1 {
 .layout { gap: 4px; }
   .filters { font-size: clamp(0.86rem, 3.7vw, 1rem); }
   .glass-card { font-size: calc(0.8rem + 2px); }
+  .layout { padding-top: 44px; }
+  .lang-toggle { top: 10px; right: 10px; }
 }
 
 .lead-form select {
@@ -361,6 +389,27 @@ h1 {
   width: min(740px, calc(100vw - 24px));
   max-height: min(calc(100dvh - 24px), calc(100vh - 24px));
   grid-template-rows: auto minmax(0, 1fr);
+}
+
+
+.legal-modal .modal-card {
+  width: min(640px, calc(100vw - 24px));
+  grid-template-rows: auto minmax(0, 1fr);
+}
+
+.legal-content {
+  min-height: 0;
+  overflow-y: auto;
+  display: grid;
+  gap: 10px;
+  padding-right: 4px;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: #e6eeff;
+}
+
+.legal-content a {
+  color: var(--accent);
 }
 
 .tech-grid {
