@@ -415,6 +415,11 @@ h1 {
   box-shadow: 0 8px 22px rgba(93, 240, 209, 0.16);
 }
 
+.cookie-banner[hidden] {
+  display: none;
+}
+
+=======
 .cookie-banner {
   position: fixed;
   left: 50%;
