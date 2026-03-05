@@ -32,7 +32,7 @@ body {
   position: relative;
   padding: clamp(8px, 1.4vh, 14px) clamp(10px, 2vw, 24px);
   isolation: isolate;
-  overflow: hidden;
+  min-height: 100dvh;
 }
 
 .ambient {
