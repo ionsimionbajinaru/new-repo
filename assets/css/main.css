@@ -367,17 +367,12 @@ h1 {
 
 .tech-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
-  gap: 10px;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 9px;
   width: 100%;
   max-height: min(66dvh, 510px);
   overflow-y: auto;
   overflow-x: hidden;
-=======
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 9px;
-  overflow-y: auto;
-  max-height: min(66dvh, 510px);
   padding-right: 2px;
 }
 
@@ -387,7 +382,6 @@ h1 {
   background: rgba(255, 255, 255, 0.04);
   min-height: 84px;
   min-width: 0;
-=======
   padding: 9px 7px;
   display: grid;
   justify-items: center;
@@ -419,4 +413,70 @@ h1 {
 .tech-item-link:hover {
   border-color: rgba(93, 240, 209, 0.5);
   box-shadow: 0 8px 22px rgba(93, 240, 209, 0.16);
+}
+
+.cookie-banner[hidden] {
+  display: none;
+}
+
+.cookie-banner {
+  position: fixed;
+  left: 50%;
+  bottom: 20px;
+  transform: translateX(-50%);
+  width: min(780px, calc(100% - 24px));
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 14px;
+  background: rgba(8, 12, 22, 0.92);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  z-index: 20;
+}
+
+.cookie-banner__text {
+  font-size: 0.82rem;
+  color: #e6eeff;
+}
+
+.cookie-banner__actions {
+  display: flex;
+  gap: 8px;
+}
+
+.cookie-btn {
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 10px;
+  padding: 8px 12px;
+  background: transparent;
+  color: #f5f8ff;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.cookie-btn--accept {
+  background: linear-gradient(135deg, var(--accent) 0%, #8bfce8 100%);
+  color: #04100f;
+  border-color: transparent;
+}
+
+.cookie-btn--reject:hover,
+.cookie-btn--accept:hover {
+  filter: brightness(1.06);
+}
+
+@media (max-width: 760px) {
+  .cookie-banner {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .cookie-banner__actions {
+    justify-content: flex-end;
+  }
 }
