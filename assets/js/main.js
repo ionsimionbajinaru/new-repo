@@ -6,6 +6,9 @@
   const techStackButton = document.getElementById("tech-stack-btn");
   const techStackModal = document.getElementById("tech-stack-modal");
   const closeTechButton = document.getElementById("close-tech-modal");
+  const credentialsButton = document.getElementById("credentials-btn");
+  const credentialsModal = document.getElementById("credentials-modal");
+  const closeCredentialsButton = document.getElementById("close-credentials-modal");
   const leadForm = document.getElementById("lead-form");
   const langToggle = document.getElementById("lang-toggle");
   const privacyButton = document.getElementById("privacy-btn");
@@ -83,10 +86,22 @@
       closeTechModalAria: "Close tech stack",
       techGridAria: "Technology stack icons",
       eyebrow: "Production-Ready MVP Systems",
-      headline: "Authority. Conversion. Scale.",
+      headline: "Authority. Conversion. Systems.",
       subheadline: "Built. Deployed. Scaled.",
       applyButton: "Apply for MVP Project",
       techStackButton: "Tech Stack",
+      credentialsButton: "Credentials",
+      credentialsModalTitle: "Credentials",
+      closeCredentialsModalAria: "Close credentials",
+      credentialsGridAria: "Certification list",
+      issuerLabel: "Issuer:",
+      credentialIdLabel: "Credential ID:",
+      certOneName: "Google UX Design Professional Certificate",
+      certOneIssuer: "Google",
+      certTwoName: "Meta Front-End Developer Professional Certificate",
+      certTwoIssuer: "Meta",
+      certThreeName: "Google Analytics Certification (GA4)",
+      certThreeIssuer: "Google",
       microProof: "Global • Remote • Execution without friction",
       filterOne: "High-intent founders only",
       filterTwo: "Clear budget & scope",
@@ -157,10 +172,22 @@
       closeTechModalAria: "Închide tehnologiile",
       techGridAria: "Iconițe stack tehnologic",
       eyebrow: "Sisteme MVP gata de producție",
-      headline: "Autoritate. Conversie. Scalare.",
+      headline: "Autoritate. Conversie. Sisteme.",
       subheadline: "Construit. Lansat. Scalabil.",
       applyButton: "Aplică pentru proiect MVP",
       techStackButton: "Tech Stack",
+      credentialsButton: "Certificări",
+      credentialsModalTitle: "Certificări",
+      closeCredentialsModalAria: "Închide certificările",
+      credentialsGridAria: "Listă certificări",
+      issuerLabel: "Emitent:",
+      credentialIdLabel: "ID certificare:",
+      certOneName: "Certificat Profesional Google UX Design",
+      certOneIssuer: "Google",
+      certTwoName: "Certificat Profesional Meta Front-End Developer",
+      certTwoIssuer: "Meta",
+      certThreeName: "Certificare Google Analytics (GA4)",
+      certThreeIssuer: "Google",
       microProof: "Global • Remote • Execuție fără fricțiune",
       filterOne: "Doar fondatori cu intenție ridicată",
       filterTwo: "Buget și scop clar",
@@ -231,10 +258,22 @@
       closeTechModalAria: "Chiudi stack tecnologico",
       techGridAria: "Icone dello stack tecnologico",
       eyebrow: "Sistemi MVP pronti per la produzione",
-      headline: "Autorevolezza. Conversione. Scala.",
+      headline: "Autorevolezza. Conversione. Sistemi.",
       subheadline: "Creato. Distribuito. Scalato.",
       applyButton: "Candidati per un progetto MVP",
       techStackButton: "Tech Stack",
+      credentialsButton: "Certificazioni",
+      credentialsModalTitle: "Certificazioni",
+      closeCredentialsModalAria: "Chiudi certificazioni",
+      credentialsGridAria: "Elenco certificazioni",
+      issuerLabel: "Ente:",
+      credentialIdLabel: "ID credenziale:",
+      certOneName: "Google UX Design Professional Certificate",
+      certOneIssuer: "Google",
+      certTwoName: "Meta Front-End Developer Professional Certificate",
+      certTwoIssuer: "Meta",
+      certThreeName: "Certificazione Google Analytics (GA4)",
+      certThreeIssuer: "Google",
       microProof: "Globale • Da remoto • Esecuzione senza attriti",
       filterOne: "Solo founder ad alta intenzione",
       filterTwo: "Budget e obiettivo chiari",
@@ -610,6 +649,12 @@
     const dict = copy[locale];
 
     document.documentElement.setAttribute("lang", dict.htmlLang);
+    const pageTitle = {
+      en: "Ion Simion Băjinaru | MVP Systems",
+      ro: "Ion Simion Băjinaru | Sisteme MVP",
+      it: "Ion Simion Băjinaru | Sistemi MVP",
+    }[locale] || "Ion Simion Băjinaru | MVP Systems";
+    document.title = pageTitle;
 
     updateLocalizedText(dict);
     updateLocalizedAriaLabels(dict);
@@ -682,6 +727,7 @@
   });
 
   // Activează modalurile legale nou adăugate.
+  bindModal(credentialsButton, credentialsModal, closeCredentialsButton);
   bindModal(privacyButton, privacyModal, closePrivacyButton);
   bindModal(cookiePolicyButton, cookiePolicyModal, closeCookiePolicyButton);
   bindModal(contactInfoButton, contactInfoModal, closeContactInfoButton);
@@ -701,6 +747,12 @@
     if (modal?.classList.contains("is-open")) {
       toggleModal(modal, applyButton, false);
       applyButton?.focus();
+      return;
+    }
+
+    if (credentialsModal?.classList.contains("is-open")) {
+      toggleModal(credentialsModal, credentialsButton, false);
+      credentialsButton?.focus();
       return;
     }
 

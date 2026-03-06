@@ -107,7 +107,14 @@
                 <img src="assets/images/ion.jpg" alt="Ion Simion Băjinaru" />
               </div>
 
-              <button class="credentials-btn" id="credentials-btn">
+              <button
+                class="cta-secondary credentials-btn"
+                id="credentials-btn"
+                type="button"
+                aria-controls="credentials-modal"
+                aria-expanded="false"
+                data-i18n="credentialsButton"
+              >
                 Credentials
               </button>
             </div>
@@ -151,6 +158,85 @@
               Contact
             </button>
           </nav>
+        </div>
+      </section>
+
+      <section
+        class="apply-modal credentials-modal"
+        id="credentials-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="credentials-modal-title"
+        aria-hidden="true"
+      >
+        <div class="modal-card">
+          <div class="modal-head">
+            <h2 id="credentials-modal-title" data-i18n="credentialsModalTitle">
+              Credentials
+            </h2>
+            <button
+              type="button"
+              class="modal-close"
+              id="close-credentials-modal"
+              aria-label="Close credentials"
+              data-i18n-aria-label="closeCredentialsModalAria"
+            >
+              ×
+            </button>
+          </div>
+          <div
+            class="credentials-grid"
+            aria-label="Certification list"
+            data-i18n-aria-label="credentialsGridAria"
+          >
+            <article class="credential-card">
+              <p class="credential-title" data-i18n="certOneName">
+                Google UX Design Professional Certificate
+              </p>
+              <p>
+                <span class="credential-label" data-i18n="issuerLabel">Issuer</span>
+                <span data-i18n="certOneIssuer">Google</span>
+              </p>
+              <p>
+                <span class="credential-label" data-i18n="credentialIdLabel"
+                  >Credential ID</span
+                >
+                <span>GXD-2024-11837</span>
+              </p>
+            </article>
+
+            <article class="credential-card">
+              <p class="credential-title" data-i18n="certTwoName">
+                Meta Front-End Developer Professional Certificate
+              </p>
+              <p>
+                <span class="credential-label" data-i18n="issuerLabel">Issuer</span>
+                <span data-i18n="certTwoIssuer">Meta</span>
+              </p>
+              <p>
+                <span class="credential-label" data-i18n="credentialIdLabel"
+                  >Credential ID</span
+                >
+                <span>MFED-2023-90412</span>
+              </p>
+            </article>
+
+            <article class="credential-card">
+              <p class="credential-title" data-i18n="certThreeName">
+                Google Analytics Certification (GA4)
+              </p>
+              <p>
+                <span class="credential-label" data-i18n="issuerLabel">Issuer</span>
+                <span data-i18n="certThreeIssuer">Google</span>
+              </p>
+              <p>
+                <span class="credential-label" data-i18n="credentialIdLabel"
+                  >Credential ID</span
+                >
+                <span>GA4-2024-77290</span>
+              </p>
+            </article>
+          </div>
         </div>
       </section>
 
@@ -280,6 +366,20 @@
                 alt="CSS icon"
                 loading="lazy"
               /><span>CSS</span>
+            </div>
+            <div class="tech-item">
+              <img
+                src="https://cdn.simpleicons.org/react/61DAFB"
+                alt="React icon"
+                loading="lazy"
+              /><span>React</span>
+            </div>
+            <div class="tech-item">
+              <img
+                src="https://cdn.simpleicons.org/bootstrap/7952B3"
+                alt="Bootstrap icon"
+                loading="lazy"
+              /><span>Bootstrap</span>
             </div>
             <div class="tech-item">
               <img
