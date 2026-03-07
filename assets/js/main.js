@@ -8,7 +8,9 @@
   const closeTechButton = document.getElementById("close-tech-modal");
   const credentialsButton = document.getElementById("credentials-btn");
   const credentialsModal = document.getElementById("credentials-modal");
-  const closeCredentialsButton = document.getElementById("close-credentials-modal");
+  const closeCredentialsButton = document.getElementById(
+    "close-credentials-modal",
+  );
   const leadForm = document.getElementById("lead-form");
   const langToggle = document.getElementById("lang-toggle");
   const privacyButton = document.getElementById("privacy-btn");
@@ -18,8 +20,12 @@
   const cookiePolicyModal = document.getElementById("cookie-policy-modal");
   const contactInfoModal = document.getElementById("contact-info-modal");
   const closePrivacyButton = document.getElementById("close-privacy-modal");
-  const closeCookiePolicyButton = document.getElementById("close-cookie-policy-modal");
-  const closeContactInfoButton = document.getElementById("close-contact-info-modal");
+  const closeCookiePolicyButton = document.getElementById(
+    "close-cookie-policy-modal",
+  );
+  const closeContactInfoButton = document.getElementById(
+    "close-contact-info-modal",
+  );
 
   // Chei și constante folosite pentru localizare și tracking.
   const LANGUAGE_KEY = "site-language";
@@ -96,11 +102,11 @@
       credentialsGridAria: "Certification list",
       issuerLabel: "Issuer:",
       credentialIdLabel: "Credential ID:",
-      certOneName: "Google UX Design Professional Certificate",
-      certOneIssuer: "Google",
-      certTwoName: "Meta Front-End Developer Professional Certificate",
-      certTwoIssuer: "Meta",
-      certThreeName: "Google Analytics Certification (GA4)",
+      certOneName: "Assistant Programmer Certificatione",
+      certOneIssuer: "SkillBrain",
+      certTwoName: "Digital Competence Certification",
+      certTwoIssuer: "Optimcode Integration",
+      certThreeName: "Google Analytics Certification",
       certThreeIssuer: "Google",
       microProof: "Global • Remote • Execution without friction",
       filterOne: "High-intent founders only",
@@ -130,37 +136,49 @@
       privacyDataCollectedLabel: "Data collected:",
       privacyDataCollectedValue: "Name, email address, and analytics data.",
       privacyPurposeLabel: "Purpose:",
-      privacyPurposeValue: "To respond to project inquiries and provide MVP development services.",
+      privacyPurposeValue:
+        "To respond to project inquiries and provide MVP development services.",
       privacyLegalBasisLabel: "Legal basis:",
-      privacyLegalBasisValue: "Processing is based on user consent for analytics cookies and legitimate interest for responding to project inquiries.",
+      privacyLegalBasisValue:
+        "Processing is based on user consent for analytics cookies and legitimate interest for responding to project inquiries.",
       privacyAnalyticsUsageLabel: "Analytics usage:",
-      privacyAnalyticsUsageValue: "We use Google Tag Manager and analytics tooling only after consent is granted via the cookie banner.",
+      privacyAnalyticsUsageValue:
+        "We use Google Tag Manager and analytics tooling only after consent is granted via the cookie banner.",
       privacyDataRetentionLabel: "Data retention:",
-      privacyDataRetentionValue: "Personal data submitted through the contact form is retained only as long as necessary to respond to the inquiry or establish a potential business relationship.",
+      privacyDataRetentionValue:
+        "Personal data submitted through the contact form is retained only as long as necessary to respond to the inquiry or establish a potential business relationship.",
       privacyThirdPartyProcessorsLabel: "Third-party processors:",
-      privacyThirdPartyProcessorsValue: "Analytics and website infrastructure providers may process limited technical data required for website operation.",
+      privacyThirdPartyProcessorsValue:
+        "Analytics and website infrastructure providers may process limited technical data required for website operation.",
       privacyGdprRightsLabel: "GDPR rights:",
-      privacyGdprRightsValue: "You have the right to access, rectify, erase, restrict processing, object to processing, and data portability where applicable.",
+      privacyGdprRightsValue:
+        "You have the right to access, rectify, erase, restrict processing, object to processing, and data portability where applicable.",
       contactEmailLabel: "Contact email:",
       cookiePolicyModalTitle: "Cookie Policy",
       closeCookiePolicyModalAria: "Close cookie policy",
-      cookiePolicyParagraphOne: "We use analytics cookies to understand aggregate website traffic and improve service quality.",
-      cookiePolicyParagraphTwoPrefix: "This website provides a consent system with ",
+      cookiePolicyParagraphOne:
+        "We use analytics cookies to understand aggregate website traffic and improve service quality.",
+      cookiePolicyParagraphTwoPrefix:
+        "This website provides a consent system with ",
       cookiePolicyAccept: "Accept",
       cookiePolicyParagraphTwoMiddle: " and ",
       cookiePolicyReject: "Reject",
       cookiePolicyParagraphTwoSuffix: " options.",
-      cookiePolicyParagraphThree: "Analytics scripts are loaded only after you explicitly accept cookie consent.",
-      cookiePolicyParagraphFour: "You can reject analytics and continue browsing core website content without tracking.",
+      cookiePolicyParagraphThree:
+        "Analytics scripts are loaded only after you explicitly accept cookie consent.",
+      cookiePolicyParagraphFour:
+        "You can reject analytics and continue browsing core website content without tracking.",
       contactInfoModalTitle: "Contact / Operator Information",
       closeContactInfoModalAria: "Close operator information",
       contactOperatorLabel: "Operator:",
       contactWebsitePurposeLabel: "Website purpose:",
-      contactWebsitePurposeValue: "MVP development services for founders and businesses.",
+      contactWebsitePurposeValue:
+        "MVP development services for founders and businesses.",
       contactLocationLabel: "Location:",
       contactLocationValue: "Romania",
       contactGdprContactLabel: "GDPR contact:",
-      contactGdprContactValue: "Requests related to personal data can be sent to the contact email above.",
+      contactGdprContactValue:
+        "Requests related to personal data can be sent to the contact email above.",
     },
     ro: {
       htmlLang: "ro",
@@ -182,11 +200,11 @@
       credentialsGridAria: "Listă certificări",
       issuerLabel: "Emitent:",
       credentialIdLabel: "ID certificare:",
-      certOneName: "Certificat Profesional Google UX Design",
-      certOneIssuer: "Google",
-      certTwoName: "Certificat Profesional Meta Front-End Developer",
-      certTwoIssuer: "Meta",
-      certThreeName: "Certificare Google Analytics (GA4)",
+      certOneName: "Programator asistent",
+      certOneIssuer: "Skillbrain",
+      certTwoName: "Competențe Digitale",
+      certTwoIssuer: "Optimcode Integration",
+      certThreeName: "Google Analytics",
       certThreeIssuer: "Google",
       microProof: "Global • Remote • Execuție fără fricțiune",
       filterOne: "Doar fondatori cu intenție ridicată",
@@ -216,37 +234,49 @@
       privacyDataCollectedLabel: "Date colectate:",
       privacyDataCollectedValue: "Nume, adresă de email și date de analiză.",
       privacyPurposeLabel: "Scop:",
-      privacyPurposeValue: "Pentru a răspunde solicitărilor de proiect și pentru a oferi servicii de dezvoltare MVP.",
+      privacyPurposeValue:
+        "Pentru a răspunde solicitărilor de proiect și pentru a oferi servicii de dezvoltare MVP.",
       privacyLegalBasisLabel: "Temei legal:",
-      privacyLegalBasisValue: "Prelucrarea se bazează pe consimțământul utilizatorului pentru cookie-urile de analiză și pe interesul legitim pentru răspunsul la solicitările de proiect.",
+      privacyLegalBasisValue:
+        "Prelucrarea se bazează pe consimțământul utilizatorului pentru cookie-urile de analiză și pe interesul legitim pentru răspunsul la solicitările de proiect.",
       privacyAnalyticsUsageLabel: "Utilizare analytics:",
-      privacyAnalyticsUsageValue: "Folosim Google Tag Manager și instrumente de analiză doar după acordarea consimțământului prin bannerul de cookie-uri.",
+      privacyAnalyticsUsageValue:
+        "Folosim Google Tag Manager și instrumente de analiză doar după acordarea consimțământului prin bannerul de cookie-uri.",
       privacyDataRetentionLabel: "Păstrarea datelor:",
-      privacyDataRetentionValue: "Datele personale trimise prin formularul de contact sunt păstrate doar cât este necesar pentru a răspunde solicitării sau pentru a stabili o posibilă relație de afaceri.",
+      privacyDataRetentionValue:
+        "Datele personale trimise prin formularul de contact sunt păstrate doar cât este necesar pentru a răspunde solicitării sau pentru a stabili o posibilă relație de afaceri.",
       privacyThirdPartyProcessorsLabel: "Procesatori terți:",
-      privacyThirdPartyProcessorsValue: "Furnizorii de analiză și infrastructură web pot prelucra date tehnice limitate necesare funcționării site-ului.",
+      privacyThirdPartyProcessorsValue:
+        "Furnizorii de analiză și infrastructură web pot prelucra date tehnice limitate necesare funcționării site-ului.",
       privacyGdprRightsLabel: "Drepturi GDPR:",
-      privacyGdprRightsValue: "Aveți dreptul de acces, rectificare, ștergere, restricționare a prelucrării, opoziție la prelucrare și portabilitatea datelor, acolo unde se aplică.",
+      privacyGdprRightsValue:
+        "Aveți dreptul de acces, rectificare, ștergere, restricționare a prelucrării, opoziție la prelucrare și portabilitatea datelor, acolo unde se aplică.",
       contactEmailLabel: "Email de contact:",
       cookiePolicyModalTitle: "Politica de cookie-uri",
       closeCookiePolicyModalAria: "Închide politica de cookie-uri",
-      cookiePolicyParagraphOne: "Folosim cookie-uri de analiză pentru a înțelege traficul agregat al site-ului și pentru a îmbunătăți calitatea serviciilor.",
-      cookiePolicyParagraphTwoPrefix: "Acest site oferă un sistem de consimțământ cu opțiunile ",
+      cookiePolicyParagraphOne:
+        "Folosim cookie-uri de analiză pentru a înțelege traficul agregat al site-ului și pentru a îmbunătăți calitatea serviciilor.",
+      cookiePolicyParagraphTwoPrefix:
+        "Acest site oferă un sistem de consimțământ cu opțiunile ",
       cookiePolicyAccept: "Accept",
       cookiePolicyParagraphTwoMiddle: " și ",
       cookiePolicyReject: "Respinge",
       cookiePolicyParagraphTwoSuffix: ".",
-      cookiePolicyParagraphThree: "Scripturile de analiză sunt încărcate doar după ce acceptați explicit consimțământul pentru cookie-uri.",
-      cookiePolicyParagraphFour: "Puteți respinge analiza și continua navigarea conținutului principal fără tracking.",
+      cookiePolicyParagraphThree:
+        "Scripturile de analiză sunt încărcate doar după ce acceptați explicit consimțământul pentru cookie-uri.",
+      cookiePolicyParagraphFour:
+        "Puteți respinge analiza și continua navigarea conținutului principal fără tracking.",
       contactInfoModalTitle: "Contact / Informații operator",
       closeContactInfoModalAria: "Închide informațiile operatorului",
       contactOperatorLabel: "Operator:",
       contactWebsitePurposeLabel: "Scopul website-ului:",
-      contactWebsitePurposeValue: "Servicii de dezvoltare MVP pentru fondatori și companii.",
+      contactWebsitePurposeValue:
+        "Servicii de dezvoltare MVP pentru fondatori și companii.",
       contactLocationLabel: "Locație:",
       contactLocationValue: "România",
       contactGdprContactLabel: "Contact GDPR:",
-      contactGdprContactValue: "Solicitările legate de datele personale pot fi trimise la adresa de email de contact de mai sus.",
+      contactGdprContactValue:
+        "Solicitările legate de datele personale pot fi trimise la adresa de email de contact de mai sus.",
     },
     it: {
       htmlLang: "it",
@@ -268,11 +298,11 @@
       credentialsGridAria: "Elenco certificazioni",
       issuerLabel: "Ente:",
       credentialIdLabel: "ID credenziale:",
-      certOneName: "Google UX Design Professional Certificate",
-      certOneIssuer: "Google",
-      certTwoName: "Meta Front-End Developer Professional Certificate",
-      certTwoIssuer: "Meta",
-      certThreeName: "Certificazione Google Analytics (GA4)",
+      certOneName: "Assistente programmatore",
+      certOneIssuer: "Skillbrain",
+      certTwoName: "Competenze Digitali",
+      certTwoIssuer: "Optimcode Integration",
+      certThreeName: "Google Analytics",
       certThreeIssuer: "Google",
       microProof: "Globale • Da remoto • Esecuzione senza attriti",
       filterOne: "Solo founder ad alta intenzione",
@@ -302,37 +332,49 @@
       privacyDataCollectedLabel: "Dati raccolti:",
       privacyDataCollectedValue: "Nome, indirizzo email e dati analitici.",
       privacyPurposeLabel: "Finalità:",
-      privacyPurposeValue: "Per rispondere alle richieste di progetto e fornire servizi di sviluppo MVP.",
+      privacyPurposeValue:
+        "Per rispondere alle richieste di progetto e fornire servizi di sviluppo MVP.",
       privacyLegalBasisLabel: "Base giuridica:",
-      privacyLegalBasisValue: "Il trattamento si basa sul consenso dell'utente per i cookie analitici e sul legittimo interesse per rispondere alle richieste di progetto.",
+      privacyLegalBasisValue:
+        "Il trattamento si basa sul consenso dell'utente per i cookie analitici e sul legittimo interesse per rispondere alle richieste di progetto.",
       privacyAnalyticsUsageLabel: "Uso analytics:",
-      privacyAnalyticsUsageValue: "Utilizziamo Google Tag Manager e strumenti di analisi solo dopo che il consenso è stato concesso tramite il banner dei cookie.",
+      privacyAnalyticsUsageValue:
+        "Utilizziamo Google Tag Manager e strumenti di analisi solo dopo che il consenso è stato concesso tramite il banner dei cookie.",
       privacyDataRetentionLabel: "Conservazione dei dati:",
-      privacyDataRetentionValue: "I dati personali inviati tramite il modulo di contatto sono conservati solo per il tempo necessario a rispondere alla richiesta o a stabilire un potenziale rapporto commerciale.",
+      privacyDataRetentionValue:
+        "I dati personali inviati tramite il modulo di contatto sono conservati solo per il tempo necessario a rispondere alla richiesta o a stabilire un potenziale rapporto commerciale.",
       privacyThirdPartyProcessorsLabel: "Responsabili terzi:",
-      privacyThirdPartyProcessorsValue: "I fornitori di analytics e infrastruttura web possono trattare dati tecnici limitati necessari al funzionamento del sito.",
+      privacyThirdPartyProcessorsValue:
+        "I fornitori di analytics e infrastruttura web possono trattare dati tecnici limitati necessari al funzionamento del sito.",
       privacyGdprRightsLabel: "Diritti GDPR:",
-      privacyGdprRightsValue: "Hai il diritto di accesso, rettifica, cancellazione, limitazione del trattamento, opposizione al trattamento e portabilità dei dati, ove applicabile.",
+      privacyGdprRightsValue:
+        "Hai il diritto di accesso, rettifica, cancellazione, limitazione del trattamento, opposizione al trattamento e portabilità dei dati, ove applicabile.",
       contactEmailLabel: "Email di contatto:",
       cookiePolicyModalTitle: "Cookie Policy",
       closeCookiePolicyModalAria: "Chiudi cookie policy",
-      cookiePolicyParagraphOne: "Utilizziamo cookie analitici per comprendere il traffico aggregato del sito web e migliorare la qualità del servizio.",
-      cookiePolicyParagraphTwoPrefix: "Questo sito fornisce un sistema di consenso con le opzioni ",
+      cookiePolicyParagraphOne:
+        "Utilizziamo cookie analitici per comprendere il traffico aggregato del sito web e migliorare la qualità del servizio.",
+      cookiePolicyParagraphTwoPrefix:
+        "Questo sito fornisce un sistema di consenso con le opzioni ",
       cookiePolicyAccept: "Accetta",
       cookiePolicyParagraphTwoMiddle: " e ",
       cookiePolicyReject: "Rifiuta",
       cookiePolicyParagraphTwoSuffix: ".",
-      cookiePolicyParagraphThree: "Gli script di analytics vengono caricati solo dopo che hai accettato esplicitamente il consenso ai cookie.",
-      cookiePolicyParagraphFour: "Puoi rifiutare gli analytics e continuare a navigare i contenuti principali del sito senza tracciamento.",
+      cookiePolicyParagraphThree:
+        "Gli script di analytics vengono caricati solo dopo che hai accettato esplicitamente il consenso ai cookie.",
+      cookiePolicyParagraphFour:
+        "Puoi rifiutare gli analytics e continuare a navigare i contenuti principali del sito senza tracciamento.",
       contactInfoModalTitle: "Contatto / Informazioni operatore",
       closeContactInfoModalAria: "Chiudi informazioni operatore",
       contactOperatorLabel: "Operatore:",
       contactWebsitePurposeLabel: "Finalità del sito web:",
-      contactWebsitePurposeValue: "Servizi di sviluppo MVP per founder e aziende.",
+      contactWebsitePurposeValue:
+        "Servizi di sviluppo MVP per founder e aziende.",
       contactLocationLabel: "Posizione:",
       contactLocationValue: "Romania",
       contactGdprContactLabel: "Contatto GDPR:",
-      contactGdprContactValue: "Le richieste relative ai dati personali possono essere inviate all'email di contatto sopra indicata.",
+      contactGdprContactValue:
+        "Le richieste relative ai dati personali possono essere inviate all'email di contatto sopra indicata.",
     },
   };
 
@@ -389,7 +431,10 @@
 
   // Citește limba detectată anterior pe baza IP-ului.
   const getDetectedLanguageFromStorage = () => {
-    const lang = localStorage.getItem(DETECTED_LANGUAGE_KEY)?.trim().toLowerCase();
+    const lang = localStorage
+      .getItem(DETECTED_LANGUAGE_KEY)
+      ?.trim()
+      .toLowerCase();
     return SUPPORTED_LANGUAGES.includes(lang) ? lang : null;
   };
 
@@ -450,7 +495,6 @@
 
     return (await detectLanguageFromIP()) || "en";
   };
-
 
   // Încarcă Google Tag Manager doar după consimțământ explicit (accept).
   const loadAnalytics = () => {
@@ -543,7 +587,6 @@
     modalElement.setAttribute("aria-hidden", String(!open));
     triggerElement.setAttribute("aria-expanded", String(open));
   };
-
 
   // Leagă deschiderea/închiderea pentru un modal generic cu trigger și buton de close.
   const bindModal = (openButton, modalElement, closeButtonElement) => {
@@ -649,11 +692,12 @@
     const dict = copy[locale];
 
     document.documentElement.setAttribute("lang", dict.htmlLang);
-    const pageTitle = {
-      en: "Ion Simion Băjinaru | MVP Systems",
-      ro: "Ion Simion Băjinaru | Sisteme MVP",
-      it: "Ion Simion Băjinaru | Sistemi MVP",
-    }[locale] || "Ion Simion Băjinaru | MVP Systems";
+    const pageTitle =
+      {
+        en: "Ion Simion Băjinaru | MVP Systems",
+        ro: "Ion Simion Băjinaru | Sisteme MVP",
+        it: "Ion Simion Băjinaru | Sistemi MVP",
+      }[locale] || "Ion Simion Băjinaru | MVP Systems";
     document.title = pageTitle;
 
     updateLocalizedText(dict);
